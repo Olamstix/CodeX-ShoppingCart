@@ -107,7 +107,13 @@ function addProductToCart(title, price, productImg) {
 
     // Update Total 
 
-    function updatetotal() {
+   
+}
+
+//problem occured because the updateTotal function was nested inside of the addProductToCart function
+//you have to make it available in the global scope instead
+
+ function updatetotal() {
         var cartContent = document.getElementsByClassName("cart-content")[0];
         var cartBoxes = cartContent.getElementsByClassName("cart-box");
         var total = 0;
@@ -124,4 +130,3 @@ function addProductToCart(title, price, productImg) {
             document.getElementsByClassName("total-price")[0].innerText = "₦" + total;
         }
     }
-}
