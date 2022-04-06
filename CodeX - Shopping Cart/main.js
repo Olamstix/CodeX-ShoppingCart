@@ -43,13 +43,28 @@ function ready() {
         var button = addCart[i]
         button.addEventListener("click", addCartClicked);
     }
+    //Buy Button Work
+    document
+        .getElementsByClassName("btn-buy")[0]
+        .addEventListener("click", buyButtonClicked);
 }
+
+//Buy Button
+function buyButtonClicked() {
+    alert("Your Order is Placed");
+    var cartContent = document.getElementsByClassName("cart-content")[0];
+    while (cartContent.hasChildNodes()) {
+        cartContent.removeChild(cartContent.firstChild);
+    }
+    updateTotal();
+}
+
 
 //Remove Items From Cart
 function removeCartItem(event) {
     var buttonClicked = event.target;
     buttonClicked.parentElement.remove();
-    updatetotal();
+    updateTotal();
 }
 // Quantity Changes
 function quantityChanged(event) {
@@ -57,7 +72,7 @@ function quantityChanged(event) {
     if (isNaN(input.value) || input.value <= 0) {
         input.value = 1;
     }
-    updatetotal();
+    updateTotal();
 }
 
 
@@ -69,7 +84,7 @@ function addCartClicked(event) {
     var price = shopProducts.getElementsByClassName("price")[0].innerText;
     var productImg = shopProducts.getElementsByClassName("product-img")[0].src;
     addProductToCart(title, price, productImg);
-    updatetotal();
+    updateTotal();
 }
 
 function addProductToCart(title, price, productImg) {
@@ -105,28 +120,23 @@ function addProductToCart(title, price, productImg) {
 
 
 
-    // Update Total 
-
-   
 }
+// Update Total 
 
-//problem occured because the updateTotal function was nested inside of the addProductToCart function
-//you have to make it available in the global scope instead
-
- function updatetotal() {
-        var cartContent = document.getElementsByClassName("cart-content")[0];
-        var cartBoxes = cartContent.getElementsByClassName("cart-box");
-        var total = 0;
-        for (var i = 0; i < cartBoxes.length; i++) {
-            var cartBox = cartBoxes[i];
-            var priceElement = cartBox.getElementsByClassName("cart-price")[0];
-            var quantityElement = cartBox.getElementsByClassName("cart-quantity")[0];
-            var price = parseFloat(priceElement.innerText.replace("₦", ""));
-            var quantity = quantityElement.value;
-            total = total + price * quantity;
-
-            //If price contains some kobo
-            total = Math.round(total * 100) / 100;
-            document.getElementsByClassName("total-price")[0].innerText = "₦" + total;
-        }
+function updateTotal() {
+    var cartContent = document.getElementsByClassName("cart-content")[0];
+    var cartBoxes = cartContent.getElementsByClassName("cart-box");
+    var total = 0;
+    for (var i = 0; i < cartBoxes.length; i++) {
+        var cartBox = cartBoxes[i];
+        var priceElement = cartBox.getElementsByClassName("cart-price")[0];
+        var quantityElement = cartBox.getElementsByClassName("cart-quantity")[0];
+        var price = parseFloat(priceElement.innerText.replace("₦", ""));
+        var quantity = quantityElement.value;
+        total = total + price * quantity;
     }
+    //If price contains some kobo
+    total = Math.round(total * 100) / 100;
+    document.getElementsByClassName("total-price")[0].innerText = "₦" + total;
+
+}
